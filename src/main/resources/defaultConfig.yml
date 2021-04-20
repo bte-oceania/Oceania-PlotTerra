@@ -9,9 +9,9 @@
 # map-spawn-point: Spawn point of the countries map
 #
 Companion:
-  command-only: false
+  command-only: true
   enable-custom-tpll: true
-  enable-custom-tp: true
+  enable-custom-tp: false
   IP: localhost
   port: 00000
   trees-spawn-point:
@@ -28,6 +28,9 @@ Companion:
     pitch: 0
 PlotSystem:
   database:
+    address: address
+    port: port
+    name: name
     username: null
     password: null
   path: null

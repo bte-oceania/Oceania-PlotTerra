@@ -19,40 +19,41 @@ public class EventListener extends SpecialBlocks implements Listener {
 
     @EventHandler
     public void onPlayerJoinEvent(PlayerJoinEvent event) {
-        event.setJoinMessage(null);
-
-        FileConfiguration config = BTECompanion.getPlugin().getConfig();
-
-        if(!event.getPlayer().getInventory().contains(CompanionMenu.getItem()) && !config.getBoolean("Companion.command-only")) {
-            event.getPlayer().getInventory().setItem(8, CompanionMenu.getItem());
-        }
-
-        if(!event.getPlayer().hasPlayedBefore()) {
-            event.getPlayer().teleport(new Location(event.getPlayer().getWorld(),
-                    config.getDouble("Companion.map-spawn-point.x"),
-                    config.getDouble("Companion.map-spawn-point.y"),
-                    config.getDouble("Companion.map-spawn-point.z"),
-                    (float) config.getDouble("Companion.map-spawn-point.yaw"),
-                    (float) config.getDouble("Companion.map-spawn-point.pitch")));
-
-            event.getPlayer().sendMessage("§8§l>> §aWelcome to the countries map! Use the §6pressure plates §ato teleport to the specific location.");
-            event.getPlayer().playSound(event.getPlayer().getLocation(), Sound.ENTITY_FIREWORK_LAUNCH, 5.0f, 1.0f);
-        }
+//        event.setJoinMessage(null);
+//
+//        FileConfiguration config = BTECompanion.getPlugin().getConfig();
+//
+//        if(!event.getPlayer().getInventory().contains(CompanionMenu.getItem()) && !config.getBoolean("Companion.command-only")) {
+//            event.getPlayer().getInventory().setItem(8, CompanionMenu.getItem());
+//        }
+//
+//        if(!event.getPlayer().hasPlayedBefore()) {
+//            event.getPlayer().teleport(new Location(event.getPlayer().getWorld(),
+//                    config.getDouble("Companion.map-spawn-point.x"),
+//                    config.getDouble("Companion.map-spawn-point.y"),
+//                    config.getDouble("Companion.map-spawn-point.z"),
+//                    (float) config.getDouble("Companion.map-spawn-point.yaw"),
+//                    (float) config.getDouble("Companion.map-spawn-point.pitch")));
+//
+//            event.getPlayer().sendMessage("§8§l>> §aWelcome to the countries map! Use the §6pressure plates §ato teleport to the specific location.");
+//            event.getPlayer().playSound(event.getPlayer().getLocation(), Sound.ENTITY_FIREWORK_LAUNCH, 5.0f, 1.0f);
+//        }
     }
 
     @EventHandler
     public void onPlayerInteractEvent(PlayerInteractEvent event) {
-        try {
-            if(event.getAction().equals(Action.RIGHT_CLICK_BLOCK) || event.getAction().equals(Action.RIGHT_CLICK_AIR)) {
-                if(event.getItem() != null && event.getItem().equals(CompanionMenu.getItem())) {
-                    new CompanionMenu().getUI().open(event.getPlayer());
-                }
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+//        try {
+//            if(event.getAction().equals(Action.RIGHT_CLICK_BLOCK) || event.getAction().equals(Action.RIGHT_CLICK_AIR)) {
+//                if(event.getItem() != null && event.getItem().equals(CompanionMenu.getItem())) {
+//                    new CompanionMenu().getUI().open(event.getPlayer());
+//                }
+//            }
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
     }
 
+    @SuppressWarnings("Deprecated")
     @EventHandler
     public void onPlayerBlockPlaceEvent(BlockPlaceEvent event) {
         if(event.canBuild()) {

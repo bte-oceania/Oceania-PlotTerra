@@ -25,7 +25,11 @@
             <id>fawe-repo</id>
             <url>http://ci.athion.net/job/FastAsyncWorldEdit/ws/mvn/</url>
         </repository>
+
+
     </repositories>
+
+
 
     <dependencies>
         <!-- Spigot API -->
@@ -97,7 +101,7 @@
         <!-- IMPORTANT: Plugin Building Path -->
         <sourceDirectory>src/main/java/io</sourceDirectory>
         <!-- IMPORTANT: Output File Name -->
-        <finalName>AlpsBTE-Companion V1.3</finalName>
+        <finalName>Oceania-Companion V1.3</finalName>
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>

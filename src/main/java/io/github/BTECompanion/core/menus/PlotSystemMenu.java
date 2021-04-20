@@ -128,7 +128,7 @@ public class PlotSystemMenu extends PlotSystem {
         List<CityProject> listProjects = new ArrayList<>();
 
         try (Connection connection = Utils.getConnection()) {
-            ResultSet rs = connection.createStatement().executeQuery("SELECT idcityProject, name, country FROM cityProjects WHERE visible = '1'");
+            ResultSet rs = connection.createStatement().executeQuery("SELECT idcityProject, name, state FROM cityProjects WHERE visible = '1'");
 
             int counter = 0;
 
@@ -138,18 +138,40 @@ public class PlotSystemMenu extends PlotSystem {
 
                 CityProject city = null;
 
-                switch (rs.getString("country")){
-                    case "AT":
-                        city = new CityProject(cityID, name, "4397");
+                switch (rs.getString("state")){
+                    case "QLD":
+                        city = new CityProject(cityID, name,"27032");
                         break;
-                    case "CH":
-                        city = new CityProject(cityID, name, "32348");
+                    case "NSW":
+                        city = new CityProject(cityID, name,"27035");
                         break;
-                    case "LI":
-                        city = new CityProject(cityID, name, "26174");
+                    case "ACT":
+                        city = new CityProject(cityID, name,"27038");
                         break;
-                    case "IT":
-                        city = new CityProject(cityID, name, "21903");
+                    case "VIC":
+                        city = new CityProject(cityID, name,"27029");
+                        break;
+                    case "NT":
+                        city = new CityProject(cityID, name,"27033");
+                        break;
+                    case "SA":
+                        city = new CityProject(cityID, name,"27031");
+                        break;
+                    case "WA":
+                        city = new CityProject(cityID, name,"27028");
+                        break;
+                    case "TAS":
+                        city = new CityProject(cityID, name,"27030");
+                        break;
+                    case "NZ":
+                        city = new CityProject(cityID, name,"26403");
+                        break;
+                    case "IS":
+                        city = new CityProject(cityID, name,"26168");
+                        break;
+                    default:
+                        city = new CityProject(cityID, name,"36076"); // Barrier
+                        break;
                 }
 
                 createPlotMenu.getSlot(9 + counter).setItem(city.getItem());

@@ -10,7 +10,7 @@ public class CMD_Companion implements CommandExecutor {
     @Override
     public boolean onCommand(CommandSender sender, Command cmd, String s, String[] args) {
         if(sender instanceof Player) {
-            if(sender.hasPermission("alpsbte.companion")) {
+            if(sender.hasPermission("oceania.companion")) {
                 new CompanionMenu().getUI().open((Player)sender);
             }
         }

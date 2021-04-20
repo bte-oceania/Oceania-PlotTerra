@@ -14,7 +14,7 @@ public class CMD_PastePlot implements CommandExecutor {
     @Override
     public boolean onCommand(CommandSender sender, Command cmd, String s, String[] args) {
 
-            if(sender.hasPermission("alpsbte.createplot")) {
+            if(sender.hasPermission("oceania.createplot")) {
                 if(args.length == 1) {
                     try {
                         int ID = Integer.parseInt(args[0]);

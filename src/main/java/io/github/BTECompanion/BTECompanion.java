@@ -4,7 +4,6 @@ import com.google.common.io.ByteArrayDataOutput;
 import com.google.common.io.ByteStreams;
 import github.BTECompanion.commands.*;
 import github.BTECompanion.core.EventListener;
-import github.BTECompanion.core.plotsystem.PlotPlacement;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
@@ -13,6 +12,7 @@ import org.ipvp.canvas.MenuFunctionListener;
 import java.io.*;
 import java.net.InetSocketAddress;
 import java.net.Socket;
+import java.nio.charset.StandardCharsets;
 import java.util.logging.Level;
 
 public class BTECompanion extends JavaPlugin {
@@ -32,14 +32,14 @@ public class BTECompanion extends JavaPlugin {
         this.getServer().getPluginManager().registerEvents(new MenuFunctionListener(), plugin);
 
         // Add commands
-        this.getCommand("setspawn").setExecutor(new CMD_SetSpawn());
+//        this.getCommand("setspawnpoint").setExecutor(new CMD_SetSpawnPoint());
         this.getCommand("creload").setExecutor(new CMD_ReloadConfig());
-        this.getCommand("map").setExecutor(new CMD_Map());
-        this.getCommand("speed").setExecutor(new CMD_Speed());
-        this.getCommand("hub").setExecutor(new CMD_Hub());
-        this.getCommand("companion").setExecutor(new CMD_Companion());
+//        this.getCommand("map").setExecutor(new CMD_Map());
+//        this.getCommand("speed").setExecutor(new CMD_Speed());
+//        this.getCommand("hub").setExecutor(new CMD_Hub());
+//        this.getCommand("companion").setExecutor(new CMD_Companion());
         this.getCommand("createplot").setExecutor(new CMD_CreatePlot());
-        this.getCommand("pasteplot").setExecutor(new CMD_PastePlot());
+        //this.getCommand("pasteplot").setExecutor(new CMD_PastePlot()); // TODO: Why is this not implemented?
 
         if(getConfig().getBoolean("Companion.enable-custom-tpll")) {
             // Removed tpll command because of Terra++
@@ -51,8 +51,6 @@ public class BTECompanion extends JavaPlugin {
         }
 
         this.getServer().getMessenger().registerOutgoingPluginChannel(this, "BungeeCord");
-
-        new PlotPlacement().start();
 
         getLogger().log(Level.INFO, "Successfully enabled BTE-Companion plugin.");
     }
@@ -90,13 +88,9 @@ public class BTECompanion extends JavaPlugin {
             config = YamlConfiguration.loadConfiguration(configFile);
         } else {
             // Look for default configuration file
-            try {
-                Reader defConfigStream = new InputStreamReader(this.getResource("defaultConfig.yml"), "UTF8");
+            Reader defConfigStream = new InputStreamReader(this.getResource("defaultConfig.yml"), StandardCharsets.UTF_8);
 
-                config = YamlConfiguration.loadConfiguration(defConfigStream);
-            } catch (IOException ex) {
-                getLogger().log(Level.SEVERE, "Could not load default configuration file", ex);
-            }
+            config = YamlConfiguration.loadConfiguration(defConfigStream);
         }
         saveConfig();
     }

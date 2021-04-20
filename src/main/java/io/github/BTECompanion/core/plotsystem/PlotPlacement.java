@@ -20,7 +20,7 @@ public class PlotPlacement extends Thread {
                 int pastedPlots = 0;
 
                 if(!rs.wasNull()) {
-                    Bukkit.broadcastMessage("§7§l>> §aStarting to paste plots...");
+                    Bukkit.broadcastMessage(Utils.getInfoMessageFormat("§aStarting to paste plots..."));
                 }
 
                 while (rs.next()) {
@@ -44,7 +44,7 @@ public class PlotPlacement extends Thread {
                 }
 
                 if(pastedPlots != 0) {
-                    Bukkit.broadcastMessage("§7§l>> §aPasted §6" + pastedPlots + " §aplots!");
+                    Bukkit.broadcastMessage(Utils.getInfoMessageFormat("§aPasted §6" + pastedPlots + " §aplots!"));
                 }
             } catch (SQLException ex) {
                 Bukkit.getLogger().log(Level.SEVERE, "A SQL error occurred!", ex);

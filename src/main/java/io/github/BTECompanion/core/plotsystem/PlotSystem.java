@@ -57,7 +57,7 @@ public class PlotSystem {
             plotRegion = WorldEdit.getInstance().getSessionManager().findByName(player.getDisplayName()).getSelection(
                          WorldEdit.getInstance().getSessionManager().findByName(player.getDisplayName()).getSelectionWorld());
         } catch (NullPointerException | IncompleteRegionException ex) {
-            player.sendMessage("§7§l>> §cPlease select a WorldEdit selection!");
+            player.sendMessage(Utils.getErrorMessageFormat("§cPlease select a WorldEdit selection!"));
             return;
         }
 
@@ -70,7 +70,7 @@ public class PlotSystem {
                 polyRegion = (Polygonal2DRegion)plotRegion;
 
                 if(polyRegion.getLength() > 100 || polyRegion.getWidth() > 100 || polyRegion.getHeight() > 30) {
-                     player.sendMessage("§7§l>> §cPlease adjust your selection size!");
+                     player.sendMessage(Utils.getErrorMessageFormat("§cPlease adjust your selection size! Max is 100 x 100 x 30."));
                      return;
                 }
 
@@ -81,12 +81,12 @@ public class PlotSystem {
                     polyRegion.setMaximumY((int) player.getLocation().getY() + 1);
                 }
             } else {
-                 player.sendMessage("§7§l>> §cPlease use poly selection to create a new plot!");
+                 player.sendMessage(Utils.getErrorMessageFormat("§cPlease use poly selection to create a new plot!"));
                  return;
             }
         } catch (Exception ex) {
              Bukkit.getLogger().log(Level.SEVERE, "An error occurred while creating a new plot!", ex);
-             player.sendMessage("§7§l>> §cAn error occurred while creating plot!");
+             player.sendMessage(Utils.getErrorMessageFormat("§cAn error occurred while creating plot!"));
              return;
         }
 
@@ -120,6 +120,11 @@ public class PlotSystem {
             }
             rs.close();
 
+            //Send File to hub server using FTP
+            String ftpURL = Utils.getFTPURI(plotID, cityID);
+
+            Utils.sendFileFTP(ftpURL, schematic);
+
             // Clear player selection
             try {
                 if(worldEdit.getSelection(player.getPlayer()) != null) {
@@ -130,7 +135,7 @@ public class PlotSystem {
             }
         } catch (Exception ex) {
             Bukkit.getLogger().log(Level.SEVERE, "An error occurred while saving new plot to a schematic!", ex);
-            player.sendMessage("§7§l>> §cAn error occurred while creating plot!");
+            player.sendMessage(Utils.getErrorMessageFormat("§cAn error occurred while creating plot!"));
             return;
         }
 
@@ -145,13 +150,13 @@ public class PlotSystem {
 
             statement.execute();
 
-            player.sendMessage("§7§l>> §aSuccessfully created new plot!§7 (City: " + cityID + " | ID: " + plotID + ")");
+            player.sendMessage(Utils.getInfoMessageFormat("§aSuccessfully created new plot!§7 (City: " + cityID + " | ID: " + plotID + ")"));
             player.playSound(player.getLocation(), Sound.ENTITY_EXPERIENCE_ORB_PICKUP, 1, 1);
 
             statement.close();
         } catch (Exception ex) {
             Bukkit.getLogger().log(Level.SEVERE, "An error occurred while saving new plot to database!", ex);
-            player.sendMessage("§7§l>> §cAn error occurred while creating plot!");
+            player.sendMessage(Utils.getErrorMessageFormat("§cAn error occurred while creating plot!"));
 
             try {
                 Files.deleteIfExists(Paths.get(path));
@@ -166,7 +171,7 @@ public class PlotSystem {
     public static void pastePlotSchematic(int plotID, int cityID, Vector mcCoordinates) throws IOException, DataException, MaxChangedBlocksException {
         File file = Paths.get(path, "finishedPlots", String.valueOf(cityID), plotID + ".schematic").toFile();
 
-        EditSession editSession = new EditSession(new BukkitWorld(Bukkit.getWorld("Terra")), -1);
+        EditSession editSession = new EditSession(new BukkitWorld(Bukkit.getWorld(config.getString("world-name"))), -1);
         editSession.enableQueue();
 
         SchematicFormat schematicFormat = SchematicFormat.getFormat(file);
