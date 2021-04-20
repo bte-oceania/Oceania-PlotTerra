@@ -1,6 +1,7 @@
 package github.BTECompanion.core.plotsystem;
 
 import com.sk89q.worldedit.*;
+import com.sk89q.worldedit.bukkit.BukkitPlayer;
 import com.sk89q.worldedit.bukkit.BukkitUtil;
 import com.sk89q.worldedit.bukkit.BukkitWorld;
 import com.sk89q.worldedit.bukkit.WorldEditPlugin;
@@ -54,8 +55,9 @@ public class PlotSystem {
 
         // Get WorldEdit selection of player
         try {
-            plotRegion = WorldEdit.getInstance().getSessionManager().findByName(player.getDisplayName()).getSelection(
-                         WorldEdit.getInstance().getSessionManager().findByName(player.getDisplayName()).getSelectionWorld());
+            player.sendMessage("Player is: " + player.getName());
+            plotRegion = WorldEdit.getInstance().getSessionManager().findByName(player.getName()).getSelection(
+                         WorldEdit.getInstance().getSessionManager().findByName(player.getName()).getSelectionWorld());
         } catch (NullPointerException | IncompleteRegionException ex) {
             player.sendMessage(Utils.getErrorMessageFormat("§cPlease select a WorldEdit selection!"));
             return;
@@ -101,7 +103,9 @@ public class PlotSystem {
             String filePath = Paths.get(path, String.valueOf(cityID), plotID + ".schematic").toString();
             File schematic = new File(filePath);
 
+            Bukkit.getLogger().log(Level.INFO, "Creating Directory: " + schematic.getParentFile().getPath());
             boolean createdDirectory = schematic.getParentFile().mkdirs();
+
             Bukkit.getLogger().log(Level.INFO, "Created new Directory (" + schematic.getParentFile().getName() + "): " + createdDirectory);
 
             boolean createdFile = schematic.createNewFile();
@@ -111,8 +115,10 @@ public class PlotSystem {
 
             Clipboard cb = new BlockArrayClipboard(polyRegion);
             cb.setOrigin(cb.getRegion().getCenter());
-            LocalSession playerSession = WorldEdit.getInstance().getSessionManager().findByName(player.getDisplayName());
-            ForwardExtentCopy copy = new ForwardExtentCopy(playerSession.createEditSession(worldEdit.wrapPlayer(player)), polyRegion, cb, polyRegion.getMinimumPoint());
+            LocalSession playerSession = WorldEdit.getInstance().getSessionManager().findByName(player.getName());
+            ForwardExtentCopy copy = new ForwardExtentCopy(
+                    playerSession.createEditSession(new BukkitPlayer(worldEdit, worldEdit.getServerInterface(), player)),
+                        polyRegion, cb, polyRegion.getMinimumPoint());
             Operations.completeLegacy(copy);
 
             try(ClipboardWriter writer = ClipboardFormat.SCHEMATIC.getWriter(new FileOutputStream(schematic, false))) {
